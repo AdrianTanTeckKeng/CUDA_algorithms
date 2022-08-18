@@ -1,6 +1,6 @@
 #include "cuda_device_runtime_api.h"
 #include "device_launch_parameters.h"
-#include "workEfficient.h"
+#include "header\workEfficient.h"
 #include <cuda.h>
 #include <cuda_runtime.h>
 #include <iostream>
@@ -31,12 +31,14 @@ namespace StreamCompaction
 {
 	namespace workEfficient
 	{
+		
 		using StreamCompaction::Common::PerformanceTimer;
 		PerformanceTimer& timer()
 		{
 			static PerformanceTimer timer;
 			return timer;
 		}
+		
 
 		__global__ void kernelUp(int size, int d, int* data)
 		{
@@ -114,15 +116,15 @@ namespace StreamCompaction
 			// Allocate memory for output and indices
 			cudaMalloc((void**)&d_output, size * sizeof(int));
 			cudaMalloc((void**)&d_indices, size * sizeof(int));
-
+			
 			// Now start loop.
 			// We first map input to boolean
+			timer().startGpuTimer();
 			StreamCompaction::Common::kernMapToBoolean<<<BlocksPerGrid, blockSize>>>(n, d_boolean ,d_input);
-			
 
 			// Now we perform scan on Boolean. We first map data from Boolean to indices(we will need the boolean still)
-			cudaMemcpy(d_indices, d_boolean, size * sizeof(int), cudaMemcpyHostToHost);
-
+			cudaMemcpy(d_indices, d_boolean, size * sizeof(int), cudaMemcpyDeviceToDevice);
+			
 			// Then perform upsweep
 			for (int d = 0; d <= ilog2ceil(n) - 1; d++)
 			{
@@ -140,7 +142,7 @@ namespace StreamCompaction
 
 			// Now perform scatter
 			StreamCompaction::Common::kernScatter << <BlocksPerGrid, blockSize >> > (n, d_output, d_input, d_boolean, d_indices);
-
+			timer().endGpuTimer();
 			
 			// Retrieve all required data
 			int* finalCount = new int[1];
@@ -150,10 +152,12 @@ namespace StreamCompaction
 			
 			// Free data
 			delete[] finalCount;
+			
 			cudaFree(d_output);
 			cudaFree(d_input);
 			cudaFree(d_indices);
 			cudaFree(d_boolean);
+			
 			return count;
 		}
 	}

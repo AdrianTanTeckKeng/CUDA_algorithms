@@ -1,4 +1,4 @@
-#include "naive.h"
+#include "header\naive.h"
 #include <cuda.h>
 #include <cuda_runtime.h>
 #include <device_launch_parameters.h>
@@ -8,12 +8,14 @@ namespace StreamCompaction
 {
 	namespace Naive
 	{
+		
 		using StreamCompaction::Common::PerformanceTimer;
 		PerformanceTimer& timer()
 		{
 			static PerformanceTimer timer;
 			return timer;
 		}
+		
 
 		// Define kernel function for Scan
 		__global__ void kernelScan(int n, int d, const int* idata, int* odata)

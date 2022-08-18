@@ -1,12 +1,12 @@
 #include <iostream>
 #include "cpu.h"
-#include "naive.h"
-#include "workEfficient.h"
-#include "testing_helpers.h"
-#include "thrustInBuilt.h"
-#include "timer.h"
+#include "header\naive.h"
+#include "header\workEfficient.h"
+#include "header\testing_helpers.h"
+#include "header\thrustInBuilt.h"
+#include "header\timer.h"
 
-const int SIZE = 1 << 12;
+const int SIZE = 1 << 8;
 const int NPOT = SIZE - 3;
 int* a = new int[SIZE];
 int* b = new int[SIZE];
@@ -86,6 +86,7 @@ int main()
 	expectedCount = count;
 	printArray(count, b, true);
 	printCmpLenResult(count, expectedCount, b, b);
+	printElapsedTime(StreamCompaction::CPU::timer().getCpuElapsedTimeForPreviousOperation(), "(std::chrono Measured)");
 
 	zeroArray(SIZE, c);
 	printDesc("cpu compact without scan, non power-of-two");
@@ -93,12 +94,14 @@ int main()
 	expectedNPOT = count;
 	printArray(count, c, true);
 	printCmpLenResult(count, expectedNPOT, b, c);
+	printElapsedTime(StreamCompaction::CPU::timer().getCpuElapsedTimeForPreviousOperation(), "(std::chrono Measured)");
 
 	zeroArray(SIZE, c);
 	printDesc("cpu compact with scan, non power-of-two");
 	count = StreamCompaction::CPU::compactWithScan(NPOT, c, a);
 	printArray(count, c, true);
 	printCmpLenResult(count, expectedNPOT, b, c);
+	printElapsedTime(StreamCompaction::CPU::timer().getCpuElapsedTimeForPreviousOperation(), "(std::chrono Measured)");
 
 	// Testing work efficient algorithm implemented on GPU
 	zeroArray(SIZE, c);
@@ -106,6 +109,7 @@ int main()
 	count = StreamCompaction::workEfficient::compact(NPOT, c, a);
 	printArray(count, c, true);
 	printCmpLenResult(count, expectedNPOT, b, c);
+	printElapsedTime(StreamCompaction::workEfficient::timer().getGpuElapsedTimeForPreviousOperation(), "(CUDA Measured)");
 
 	// Now free up the memory
 	delete[] a;
