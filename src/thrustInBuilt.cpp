@@ -1,4 +1,4 @@
-#include "header\thrustInBuilt.h"
+#include "..\header\thrustInBuilt.h"
 #include <cuda.h>
 #include <cuda_runtime.h>
 #include "cuda_device_runtime_api.h"

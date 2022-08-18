@@ -1,4 +1,4 @@
-#include "common.h"
+#include "..\header\common.h"
 
 namespace StreamCompaction
 {

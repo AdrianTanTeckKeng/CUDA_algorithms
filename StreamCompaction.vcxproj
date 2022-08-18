@@ -18,6 +18,25 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="header\common.h" />
+    <ClInclude Include="header\cpu.h" />
+    <ClInclude Include="header\naive.h" />
+    <ClInclude Include="header\testing_helpers.h" />
+    <ClInclude Include="header\thrustInBuilt.h" />
+    <ClInclude Include="header\timer.h" />
+    <ClInclude Include="header\workEfficient.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\cpu.cpp" />
+    <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\testing_helpers.cpp" />
+    <ClCompile Include="src\thrustInBuilt.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <CudaCompile Include="src\naive.cu" />
+    <CudaCompile Include="src\workEfficient.cu" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
@@ -143,27 +162,6 @@
       <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClInclude Include="common.h" />
-    <ClInclude Include="cpu.h" />
-    <ClInclude Include="cuda_kernel.cuh" />
-    <ClInclude Include="naive.h" />
-    <ClInclude Include="testing_helpers.h" />
-    <ClInclude Include="thrustInBuilt.h" />
-    <ClInclude Include="timer.h" />
-    <ClInclude Include="workEfficient.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <CudaCompile Include="cuda_kernel.cu" />
-    <CudaCompile Include="naive.cu" />
-    <CudaCompile Include="workEfficient.cu" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="cpu.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="testing_helpers.cpp" />
-    <ClCompile Include="thrustInBuilt.cpp" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
     <Import Project="$(VCTargetsPath)\BuildCustomizations\CUDA 11.1.targets" />

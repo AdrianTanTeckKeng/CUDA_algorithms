@@ -1,12 +1,12 @@
 #include <iostream>
-#include "cpu.h"
-#include "header\naive.h"
-#include "header\workEfficient.h"
-#include "header\testing_helpers.h"
-#include "header\thrustInBuilt.h"
-#include "header\timer.h"
+#include "..\header\cpu.h"
+#include "..\header\naive.h"
+#include "..\header\workEfficient.h"
+#include "..\header\testing_helpers.h"
+#include "..\header\thrustInBuilt.h"
+#include "..\header\timer.h"
 
-const int SIZE = 1 << 8;
+const int SIZE = 1 << 6;
 const int NPOT = SIZE - 3;
 int* a = new int[SIZE];
 int* b = new int[SIZE];

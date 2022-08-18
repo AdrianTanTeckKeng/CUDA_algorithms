@@ -1,4 +1,4 @@
-#include "header\testing_helpers.h"
+#include "..\header\testing_helpers.h"
 
 
 int cmpArrays(int n, int* a, int* b)
